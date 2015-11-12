@@ -39,10 +39,39 @@ def LRG_exon_coordinates(LRG_tree):
 					#generate a list of exon_start and exon_end for each exon
 					start_end_list = [exon_start, exon_end]
 					#append the exon_dictionary with the exon number as a key and the exon_start, exon_end as the values
-					exon_dict[exon_number] = start_end_list
+					exon_dict[int(exon_number)] = start_end_list
 	#make the output of the function the exon dictionay that has been created
 	return exon_dict
 
-#execue the function on the parsed xml file 
-LRG_exon_coordinates(LRG_tree)
+def LRG_intron_coordinates(exon_dict):
+	intron_dict = {}
+	for exon_number in exon_dict:
+		if exon_number != exon_dict.keys()[-1]:
+			intron_number = exon_number
+			if intron_number in exon_dict.keys(): 
+				value = (exon_dict[intron_number])
+				intron_start = int(value[1]) + 1
+				#print intron_start
+				exon_exclude_1 = intron_number + 1
+				if exon_exclude_1 in exon_dict.keys():
+					value = exon_dict[exon_exclude_1]
+					#print value
+					intron_end = int(value[0]) -1
+					#print intron_end
+					intron_start_end_list = [intron_start, intron_end]
+					intron_dict[int(intron_number)] = intron_start_end_list
+	print intron_dict
+	return intron_dict
+ 
+				
+#			intron_end = 
+#			print intron_number
 
+#		assign the value to the new intron_dictionary as the key
+#		take the end value + 1 to create the intron start value
+#		then move to the key + 1 take the start -1 and assign it as the intron end value
+#	retun intron_dict
+
+#execue the function on the parsed xml file 
+exon_dict = LRG_exon_coordinates(LRG_tree)
+LRG_intron_coordinates(exon_dict)
