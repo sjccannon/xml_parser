@@ -62,14 +62,23 @@ def LRG_exon_coordinates(LRG_tree):
 	#make the output of the function the exon dictionay that has been created
 	return exon_dict
 
+#this function infers the intron coordinates based on a dictionary that contains exon location as the key and exon start coordinate, exon end coordinate as the values
 def LRG_intron_coordinates(exon_dict):
+	#generate the empty intron dictionary which will be later updated with intron number as the key and intron start, intron end coordinates as
+	#the values
 	intron_dict = {}
+	#iterates through every key in the exon_dictionary
 	for exon_number in exon_dict:
+		#if statement to exclude the final exon (as there will be one less introns than exons)
 		if exon_number != exon_dict.keys()[-1]:
+			#assign the new list of keys to the variable intron_number which will later become the key in the intron_dictionary
 			intron_number = exon_number
 			#ASSERT - check the number of introns is one less than the number of exons
+			#if statement to identify intron start value
 			if intron_number in exon_dict.keys(): 
+				#using intron number variable to only pull out the values exon dictionary required to identify intron start (i.e. doesn't pull out the values associated with the final one exon)
 				value = (exon_dict[intron_number])
+				#
 				intron_start = int(value[1]) + 1
 				exon_exclude_1 = intron_number + 1
 				if exon_exclude_1 in exon_dict.keys():
