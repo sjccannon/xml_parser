@@ -9,6 +9,12 @@ LRG_tree = tree.parse("LRG_1.xml")
 #identify the root of the xml file
 LRG_root = LRG_tree.getroot()
 
+#this line of code extracts the required metadata and saves it into a dictionary
+metadataDict = {'LRG_ID':root[0][0].text, 'Organism':root[0][3].text, 'Gene' : root[0][4][0].text}
+
+#this line of code extracts the genomic sequence of gene in the LRG file and stores it as a list (CM)
+GeneSequence = list(LRG_root[0][7].text)
+
 #create a dictionary with the exon number as the key and the "startcoordinate"  as value [0] and the "endcoordinate" a$
 def LRG_exon_coordinates(LRG_tree):
 	#create an empty dictionary to be later appended
@@ -60,18 +66,24 @@ def LRG_intron_coordinates(exon_dict):
 					#print intron_end
 					intron_start_end_list = [intron_start, intron_end]
 					intron_dict[int(intron_number)] = intron_start_end_list
-	print intron_dict
 	return intron_dict
- 
-				
-#			intron_end = 
-#			print intron_number
 
-#		assign the value to the new intron_dictionary as the key
-#		take the end value + 1 to create the intron start value
-#		then move to the key + 1 take the start -1 and assign it as the intron end value
-#	retun intron_dict
+def LRG_intron_sequence(intron_dict):
+        for intron_number in intron_dict:
+		value = (intron_dict[intron_number])
+		intron_sequence_start = int(value[0]) -1
+		intron_sequence_end = int(value[1])
+		intron_sequence = (GeneSequence[intron_sequence_start:intron_sequence_end])
+		intron_sequence = ''.join(intron_sequence)
+		intron_dict[intron_number].append(intron_sequence)
+		print intron_dict
+	return intron_dict
+
+def intron_sequence_output(intron_dict) 
+
+
 
 #execue the function on the parsed xml file 
 exon_dict = LRG_exon_coordinates(LRG_tree)
-LRG_intron_coordinates(exon_dict)
+intron_dict = LRG_intron_coordinates(exon_dict)
+intron_sequences = LRG_intron_sequence(intron_dict)
