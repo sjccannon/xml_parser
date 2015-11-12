@@ -14,6 +14,13 @@ def LRG_metadata(LRG_file):
 
 #function to identify the genomic sequence tag and store the data in a list of characters
 def LRG_genomic_sequence(LRG_file):
+	LRGfile_tree = tree.parse('LRG_1.xml')
+
+	root = LRGfile_tree.getroot()
+
+	GeneSequence = list(root[0][7].text)
+
+#this line of code extracts the genomic sequence of gene in the LRG file and stores it as a list (CM)
 	#identify genomic sequence tag and generate a list with one nucleotide per element 
 	#assign list to a dictionary with the gene_name and LRG concatenated as the key and the nucleotide as the list of values
 	#note - exons start at 5001, genomic sequence starts at 1 and ends 2000 bases after the final exon.
