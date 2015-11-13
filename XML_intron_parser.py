@@ -8,10 +8,10 @@
 #this function parses a specified xml file then outputs a dictionary containing the exon number as the key, value[0] as the exon start position and value[1] as the exon end position
 #import relevant modules
 import xml.etree.ElementTree as tree
-import glob
+import glob, sys
 
-#"""uses glob.glob() to search the current folder for all LRG files in the format LRG_*.xml. Ensure LRG files retain the same name as when downloaded otherwise alter the regular expression as appropriate
-#will run the program on every LRG_file within the dictionary""" 
+"""uses glob.glob() to search the current folder for all LRG files in the format LRG_*.xml. Ensure LRG files retain the same name formatting as when downloaded otherwise alter the regular expression as appropriate
+will run the program on every LRG_file within the dictionary""" 
 
 #read in the exon file here
 for filename in glob.glob('LRG_*.xml'):
@@ -112,8 +112,11 @@ def LRG_intron_sequence(intron_dict):
 	return intron_dict
 
 #def intron_sequence_output(intron_dict):
-	"""The code then executes all of the above functions on every LRG_n.xml file within the current directory"""
+
+"""The code then executes all of the above functions on every LRG_n.xml file within the current directory"""
 	#execue the functions on each the parsed xml files, these function calls are within the initial for loop
 	exon_dict = LRG_exon_coordinates(LRG_tree)
 	intron_dict = LRG_intron_coordinates(exon_dict)
 	intron_sequences = LRG_intron_sequence(intron_dict)
+
+
