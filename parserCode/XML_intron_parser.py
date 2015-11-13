@@ -122,7 +122,8 @@ for filename in glob.glob('LRG_*.xml'):
 	intron_dict = LRG_intron_coordinates(exon_dict)
 	intron_sequences = LRG_intron_sequence(intron_dict)
 	xml_output = xml_from_dict(tag, intron_sequences)
-	
+
+""" the following functions run some tests on the code to catch exceptions in LRG_.xml files"""	
 '''This function checkes that the genomic sequence is the correct length'''
 
 transcriptDetails = LRG_root[0][8][0].attrib
