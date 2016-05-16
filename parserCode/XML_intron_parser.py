@@ -1,28 +1,69 @@
-#presentation - what is the software supposed to do? 
-	#see it working
-	#what's on the github
-	#structure of the code
-
 #things to do
 #	create assertions
 #	test on multiple LRG files
-#	update the readme file (auto generate helpfile from comments, python javadoc)
-#	flags for the output acessing python accesses
-	
 
-#this function parses a specified xml file then outputs a dictionary containing the exon number as the key, value[0] as the exon start position and value[1] as the exon end position
 #import relevant modules
 import xml.etree.ElementTree as tree
 from xml.etree.ElementTree import Element, tostring, SubElement
 from lxml import etree
-import glob, sys
+import glob, sys, os
 
-#create a dictionary with the exon number as the key and the "startcoordinate"  as value [0] and the "endcoordinate" a$
-def LRG_exon_coordinates(LRG_tree):
+class Workspace(object):
+	
+    def __init__(self, root_dir=None):
+	if root_dir is None:
+	    self.root_dir = os.getcwd()
+	elif root_dir:
+	    self.root_dir = root_dir
+	else:
+	    print 'root directory not recognised by workspace __init__'
+
+    def lrg_dir(self, lrg_dir=None):
+	if lrg_dir is None:
+	    #check lrg_dir_path exists
+	    lrg_dir = os.path.join(self.root_dir, 'lrgs')
+	elif lrg_dir:
+	    lrg_dir = lrg_dir
+	else:
+	    print 'lrg directory not recognised'
+	return lrg_dir
+
+    def lrg_dir_array():
+	LRG_dirs.lrg_dirs(self.root_dir)
+
+class Lrg_files:
+
+    def __init__(self,  
+	
+
+
+if __name__ == "__main__":
+    WS = Workspace()
+    WS.lrg_dir('/mnt/Data')
+	
+		
+
+#class Lrg_files:
+
+#    def init
+
+
+#class LRG
+
+#    def __init__(self, lrg_file): 
+#	self.
+
+
+
+'''
+
+
+#parses a specified xml file, returns a dictionary (hash) { exon_number : [genomic_start, genomic_end]} 
+def lrg_exon_coordinates(lrg_tree):
 	#create an empty dictionary to be later appended
         exon_dict = {}
         #use for loop to identify all elements with the tag 'exon' 
-        for element in LRG_root.iter('exon'):
+        for element in lrg_root.iter('exon'):
 		#assign the exon tag to a variable
 		exon_tag = element.tag
 		#assign the exon attibute dictionary to a variable
@@ -113,11 +154,11 @@ def xml_from_dict(tag, intron_dict):
 """uses glob.glob() to search the current folder for all LRG files in the format LRG_*.xml. Ensure LRG files retain t$
 will run the program on every LRG_file within the dictionary""" 
 
-#read in the exon file here
-for filename in glob.glob('LRG_*.xml'):
-        LRG_tree = tree.parse(filename)
+if __name__ == "__main__" :
+    for filename in glob.glob('LRG_*.xml'):
+        lrg_tree = tree.parse(filename)
 	#identify the root of the xml file
-        LRG_root = LRG_tree.getroot()
+        LRG_root = lrg_tree.getroot()
 
         #this line of code extracts the required metadata and saves it into a dictionary
         metadataDict = {'LRG_ID':LRG_root[0][0].text, 'Organism':LRG_root[0][3].text, 'Gene' : LRG_root[0][4][0].text}
@@ -136,3 +177,6 @@ for filename in glob.glob('LRG_*.xml'):
 	intron_sequences = LRG_intron_sequence(intron_dict)
 	xml_output = xml_from_dict(tag, intron_sequences)
 	
+
+
+'''
