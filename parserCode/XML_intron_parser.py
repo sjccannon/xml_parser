@@ -24,54 +24,42 @@ class Workspace(object):
 #method to find lrg pathnames and return array of lrg_instances, default to return all lrg_filepaths input of lrg paths
 #takes a list of filepaths or returns all lrg files in the child directroy named 'lrgs'
     def lrg_array(self, lrg_targets=None, force=False):
-	#if type(lrg_targets) == list:
-	#    iterate through list:
-	#	if str(root) in the lrg_target and lrg_target ends in xml or fasta and is a real filepath:
-	#	    create_lrg_instance(lrg_target)
-	#append instance to lrg_instances
-	#	elif str(root) not in lrg_target and ends in .xml of .fasta and is a real file path:
-	#		if force==True:
-	#		    write to log file that 'the following supplied LRGs were not in the recognised workspace but will be added to the lrg_workspace_list 
-	#		    and initialised'
-	#		    print message to user saying that x isn't recognisne workspace but initialised as LRG object
-	#		   create lrg instace
-	#		    append instance to lrg_instances
-	#		else:
-	#		    write to log file 'the following supplied lrg path not in recognised workspace directories, has been appended to lrg_non_workspace_list 
-	#			but not initialised as lrg_object'
-	#			append string to 
-	      #elif type(lrg_targets) == string: 
-	            #test to see if it is file path
-		# if filepath and ends in xml or fasta
-		#    create an LRG_instance  
-		#    append to self.lrg_instance_list
-            	#elif not filepath	
-		   writn to log file 'lrg target <lrg string> is not a recognise path. please provide an accurate path to the xml of fasta lrg file
-	#else:
 	lrg_root = os.path.join(self.root_dir, 'lrgs')
 	#iterate_through sub-directories 
 	for subdirs, dirs, files in os.walk(lrg_root):
 	    for file in files:
-		if re.match("LRG_*xml", str(file)):
+		if re.match("LRG_.*xml", str(file)):
 		    file = os.path.abspath(file)
-		    Lrg(file)
-		elif re.match("LRG_*fasta", str(file):
+		    self.lrg_instances.append(Lrg(file))
+		elif re.match("LRG_.*fasta", str(file)):
 		    file = os.path.abspath(file)
-		    Lrg(file)
-        identify unique "lrg xml" and "lrg fasta"
-	create an instance for each
+		    self.lrg_instances.append(Lrg(file))
+	return self.lrg_instances
 
-Class Lrg:
+class Lrg:
     
-    def __init__(self, lrg_path)
-	self.lrg_path = lrg_path
+    def __init__(self, lrg_path):
+	self.path = lrg_path
 	self.name = ""
 	self.exon_coord = {}
 	self.intron_coord = {}
-	self.lrg_format = ""
+	self.format = ""
     
     #get_lrg_name
-    #def lrg_name
+    def get_name(self):
+	base = os.path.basename(self.path)
+	no_ext = os.path.splitext(base)
+	self.name = no_ext[0]
+	return self.name
+
+    def get_format(self):
+	base = os.path.basename(self.path)
+	ext = os.path.splitext(base)[1].strip(".")
+	if ext == 'xml':
+	    self.format = ext
+	elif ext == 'fasta':
+	    self.format = ext
+        return self.format
     
     #differentiate .xml and .fasta
     #def lrg_format
@@ -81,12 +69,19 @@ Class Lrg:
     #def lrg_intron
 
 
-if name == main:
-    WS = workspace()
-    lrg_directories = WS.lrg_directory_array()
-    for lrg in lrg_directory:
-	extract 
-
+if __name__ == "__main__":
+    WS = Workspace()
+    lrg_instances = WS.lrg_array()
+    for lrg in lrg_instances:
+	print lrg.path
+        #updates instance variable
+	x = lrg.get_name()
+	y = lrg.get_format()
+	print x
+	print y
+        #accessible through the class instance
+	print lrg.name
+	print lrg.format
 
 '''
 
