@@ -1,15 +1,17 @@
-#things to do
-#	create assertions
-#	test on multiple LRG files
-
-#import relevant modules
+#import modules
 import xml.etree.ElementTree as tree
 from xml.etree.ElementTree import Element, tostring, SubElement
 from lxml import etree
-import glob, sys, os
+import glob, sys, os, re
 
 class Workspace(object):
-	
+    lrg_directories = 0
+    lrg_workspace_list = []
+    lrg_non_workspace_list = []
+    lrg_instances = []
+
+   	
+    #initialise to current working directory
     def __init__(self, root_dir=None):
 	if root_dir is None:
 	    self.root_dir = os.getcwd()
@@ -18,41 +20,72 @@ class Workspace(object):
 	else:
 	    print 'root directory not recognised by workspace __init__'
 
-    def lrg_dir(self, lrg_dir=None):
-	if lrg_dir is None:
-	    #check lrg_dir_path exists
-	    lrg_dir = os.path.join(self.root_dir, 'lrgs')
-	elif lrg_dir:
-	    lrg_dir = lrg_dir
-	else:
-	    print 'lrg directory not recognised'
-	return lrg_dir
 
-    def lrg_dir_array():
-	LRG_dirs.lrg_dirs(self.root_dir)
+#method to find lrg pathnames and return array of lrg_instances, default to return all lrg_filepaths input of lrg paths
+#takes a list of filepaths or returns all lrg files in the child directroy named 'lrgs'
+    def lrg_array(self, lrg_targets=None, force=False):
+	#if type(lrg_targets) == list:
+	#    iterate through list:
+	#	if str(root) in the lrg_target and lrg_target ends in xml or fasta and is a real filepath:
+	#	    create_lrg_instance(lrg_target)
+	#append instance to lrg_instances
+	#	elif str(root) not in lrg_target and ends in .xml of .fasta and is a real file path:
+	#		if force==True:
+	#		    write to log file that 'the following supplied LRGs were not in the recognised workspace but will be added to the lrg_workspace_list 
+	#		    and initialised'
+	#		    print message to user saying that x isn't recognisne workspace but initialised as LRG object
+	#		   create lrg instace
+	#		    append instance to lrg_instances
+	#		else:
+	#		    write to log file 'the following supplied lrg path not in recognised workspace directories, has been appended to lrg_non_workspace_list 
+	#			but not initialised as lrg_object'
+	#			append string to 
+	      #elif type(lrg_targets) == string: 
+	            #test to see if it is file path
+		# if filepath and ends in xml or fasta
+		#    create an LRG_instance  
+		#    append to self.lrg_instance_list
+            	#elif not filepath	
+		   writn to log file 'lrg target <lrg string> is not a recognise path. please provide an accurate path to the xml of fasta lrg file
+	#else:
+	lrg_root = os.path.join(self.root_dir, 'lrgs')
+	#iterate_through sub-directories 
+	for subdirs, dirs, files in os.walk(lrg_root):
+	    for file in files:
+		if re.match("LRG_*xml", str(file)):
+		    file = os.path.abspath(file)
+		    Lrg(file)
+		elif re.match("LRG_*fasta", str(file):
+		    file = os.path.abspath(file)
+		    Lrg(file)
+        identify unique "lrg xml" and "lrg fasta"
+	create an instance for each
 
-class Lrg_files:
+Class Lrg:
+    
+    def __init__(self, lrg_path)
+	self.lrg_path = lrg_path
+	self.name = ""
+	self.exon_coord = {}
+	self.intron_coord = {}
+	self.lrg_format = ""
+    
+    #get_lrg_name
+    #def lrg_name
+    
+    #differentiate .xml and .fasta
+    #def lrg_format
 
-    def __init__(self,  
-	
+    #def lrg_exon
+
+    #def lrg_intron
 
 
-if __name__ == "__main__":
-    WS = Workspace()
-    WS.lrg_dir('/mnt/Data')
-	
-		
-
-#class Lrg_files:
-
-#    def init
-
-
-#class LRG
-
-#    def __init__(self, lrg_file): 
-#	self.
-
+if name == main:
+    WS = workspace()
+    lrg_directories = WS.lrg_directory_array()
+    for lrg in lrg_directory:
+	extract 
 
 
 '''
