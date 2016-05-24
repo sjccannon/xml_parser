@@ -39,13 +39,14 @@ class Lrg:
 
     def __init__(self, lrg_path):
 	self.path = lrg_path
-	self.name = ""
-	self.id = ""
 	self.lrg_tree = tree.parse(self.path)
 	self.lrg_root = self.lrg_tree.getroot()
-	self.exon_coord = {}
-	self.intron_coord = {}
+	self.name = ""
 	self.format = ""
+	self.id = ""
+	self.exon_coord = {}
+	self.exon_count = 0
+	self.intron_coord = {}
     
     #get_lrg_name
     def get_name(self):
@@ -76,11 +77,34 @@ class Lrg:
 	        for coords in exon:
 		    if self.id in coords.attrib.values():
 			self.exon_coord[exon_number] = [coords.attrib['start'], coords.attrib['end']]
+			self.exon_count += 1
 	return self.exon_coord 
 
 
-    #def lrg_intron
-
+    def get_intron(self):
+	#iterate through exon number and coordinate list in exon_dict
+	for exon_number, exon_coord_list in self.exon_coord.iteritems():
+	    exon_number = int(exon_number)
+	    #create a lsit to be appended with cordinates
+	    intron_coord_list = []
+	    #conditional for intron start - exon end unless it is the last exon
+	    if exon_number < len(self.exon_coord.keys()):
+		intron_number = exon_number
+		intron_start = int(exon_coord_list[1]) + 1
+		intron_coord_list.append(str(intron_start))
+	    if exon_number:
+		exon_above = exon_number + 1 
+		try:
+   	            exon_above_coord = (self.exon_coord[str(exon_above)])
+		    intron_end = int(exon_above_coord[0]) - 1
+		    intron_coord_list.append(str(intron_end))
+		except:
+		    pass
+	    if exon_number < len(self.exon_coord.keys()):
+	        self.intron_coord[exon_number] = intron_coord_list
+	print self.intron_coord
+	return self.intron_coord
+		
 
 if __name__ == "__main__":
     WS = Workspace()
@@ -90,7 +114,7 @@ if __name__ == "__main__":
 	y = lrg.get_format()
 	z = lrg.get_id()
 	a = lrg.get_exon()
-	print a
+	b = lrg.get_intron()
 '''
 
 
