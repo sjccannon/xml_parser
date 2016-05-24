@@ -36,9 +36,13 @@ class Workspace(object):
 	return self.lrg_instances
 
 class Lrg:
+
     def __init__(self, lrg_path):
 	self.path = lrg_path
 	self.name = ""
+	self.id = ""
+	self.lrg_tree = tree.parse(self.path)
+	self.lrg_root = self.lrg_tree.getroot()
 	self.exon_coord = {}
 	self.intron_coord = {}
 	self.format = ""
@@ -59,10 +63,20 @@ class Lrg:
 	    self.format = ext
         return self.format
     
+    def get_id(self):
+	for id in self.lrg_root.iter('id'):
+	    self.id = id.text
+	return self.id
+
     def get_exon(self):
-	print self.path
-	lrg_tree = tree.parse(self.path)
-	lrg_root = lrg_tree.getroot()
+	exon_label = 'label'
+	for exon in self.lrg_root.iter('exon'):
+	    if 'label' in exon.attrib.keys():
+		exon_number = (exon.attrib['label'])
+	        for coords in exon:
+		    if self.id in coords.attrib.values():
+			self.exon_coord[exon_number] = [coords.attrib['start'], coords.attrib['end']]
+	return self.exon_coord 
 
 
     #def lrg_intron
@@ -74,9 +88,9 @@ if __name__ == "__main__":
     for lrg in lrg_instances:
 	x = lrg.get_name()
 	y = lrg.get_format()
-	z = lrg.get_exon()
-        #accessible through the class instance
-
+	z = lrg.get_id()
+	a = lrg.get_exon()
+	print a
 '''
 
 
