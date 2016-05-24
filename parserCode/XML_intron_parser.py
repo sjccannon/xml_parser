@@ -9,8 +9,7 @@ class Workspace(object):
     lrg_workspace_list = []
     lrg_non_workspace_list = []
     lrg_instances = []
-
-   	
+      	
     #initialise to current working directory
     def __init__(self, root_dir=None):
 	if root_dir is None:
@@ -21,23 +20,22 @@ class Workspace(object):
 	    print 'root directory not recognised by workspace __init__'
 
 
-#method to find lrg pathnames and return array of lrg_instances, default to return all lrg_filepaths input of lrg paths
-#takes a list of filepaths or returns all lrg files in the child directroy named 'lrgs'
+    #method to find lrg pathnames and return array of lrg_instances, default to return all lrg_filepaths input of lrg paths
+    #takes a list of filepaths or returns all lrg files in the child directroy named 'lrgs'
     def lrg_array(self, lrg_targets=None, force=False):
 	lrg_root = os.path.join(self.root_dir, 'lrgs')
 	#iterate_through sub-directories 
 	for subdirs, dirs, files in os.walk(lrg_root):
 	    for file in files:
 		if re.match("LRG_.*xml", str(file)):
-		    file = os.path.abspath(file)
+		    file = os.path.join(subdirs, file)
 		    self.lrg_instances.append(Lrg(file))
 		elif re.match("LRG_.*fasta", str(file)):
-		    file = os.path.abspath(file)
+		    file = os.path.join(subdirs, file)
 		    self.lrg_instances.append(Lrg(file))
 	return self.lrg_instances
 
 class Lrg:
-    
     def __init__(self, lrg_path):
 	self.path = lrg_path
 	self.name = ""
@@ -61,10 +59,11 @@ class Lrg:
 	    self.format = ext
         return self.format
     
-    #differentiate .xml and .fasta
-    #def lrg_format
+    def get_exon(self):
+	print self.path
+	lrg_tree = tree.parse(self.path)
+	lrg_root = lrg_tree.getroot()
 
-    #def lrg_exon
 
     #def lrg_intron
 
@@ -73,15 +72,10 @@ if __name__ == "__main__":
     WS = Workspace()
     lrg_instances = WS.lrg_array()
     for lrg in lrg_instances:
-	print lrg.path
-        #updates instance variable
 	x = lrg.get_name()
 	y = lrg.get_format()
-	print x
-	print y
+	z = lrg.get_exon()
         #accessible through the class instance
-	print lrg.name
-	print lrg.format
 
 '''
 
