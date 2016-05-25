@@ -104,15 +104,19 @@ class Lrg:
 			self.exon_coord[exon_number] = [coords.attrib['start'], coords.attrib['end']]
 	return self.exon_coord 
 
-    #return {intron_number :
+    #return {intron_number : [intron_start, intron_end]
     def get_intron_coords(self):
+	#iterate through the exon dictionary - include conditional to ensure exon dictionary is created
 	for exon_number, exon_coord_list in self.exon_coord.iteritems():
 	    exon_number = int(exon_number)
+	    #list to be updated for each iteraion
 	    intron_coord_list = []
+	    #intron start is the last based of the preceeding exon +1 with the exception of the final exon
 	    if exon_number < len(self.exon_coord.keys()):
 		intron_number = exon_number
 		intron_start = int(exon_coord_list[1]) + 1
 		intron_coord_list.append(str(intron_start))
+	    #intron end is the first base of the subsequent exon -1 with the exception of the first exon
 	    if exon_number:
 		exon_above = exon_number + 1 
 		try:
@@ -121,26 +125,27 @@ class Lrg:
 		    intron_coord_list.append(str(intron_end))
 		except:
 		    pass
+	    #update the instance dictionary with introns where the number of introns is exon number -1
 	    if exon_number < len(self.exon_coord.keys()):
 	        self.intron_coord[exon_number] = intron_coord_list
 	return self.intron_coord
 
+    #function to retun the genomic, transctipt and protein sequences as an array
     def get_sequences(self):
 	for sequence in self.lrg_root.iter('sequence'):
 	    self.sequence.append(sequence.text)
 	return self.sequence    
 
+#main statment to initialise lrg instances in an array and loop through each to perform functions
 if __name__ == "__main__":
     WS = Workspace()
     lrg_instances = WS.lrg_array()
     for lrg in lrg_instances:
-	lrg.get_name()
-	lrg.get_format()
+	print lrg.get_name()
+	print lrg.get_format()
 	lrg.get_id()
-	lrg.get_exon_coords()
-	lrg.get_intron_coords()
+	print lrg.get_exon_coords()
+	print lrg.get_intron_coords()
 	lrg.get_sequences()
 	
-	lrg.name
-	lrg.id 
 
