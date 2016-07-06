@@ -1,3 +1,5 @@
+#Author Stuart Cannon stuartcannon@nhs.net
+#This script has been written at the University of Exeter
 #import modules
 import xml.etree.ElementTree as tree
 from xml.etree.ElementTree import Element
