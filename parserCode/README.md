@@ -1,6 +1,6 @@
-python 2.7
-The XML_intron_parser program is intended to parse Locus reference Genomic xml files into memory to be used for further analysis as required.\n
-Directory structure should be set out as:\n
+-python 2.7
+--The XML_intron_parser program is intended to parse Locus reference Genomic xml files into memory to be used for further analysis as required.
+--Directory structure should be set out as:
 
     #    parent directory/
     #        lrgs/
