@@ -1,3 +1,5 @@
+#Author Stuart Cannon stuartcannon@nhs.net
+
 #import modules
 import xml.etree.ElementTree as tree
 from xml.etree.ElementTree import Element
